@@ -26,6 +26,21 @@ docker_setup:
     set -e
     gcloud auth configure-docker us-docker.pkg.dev
 
+# builds the docker image NOTE: might need to change the version at the end
+# WARN: images build in arm does not work in gcp cloud run according to docs
+# link to docs https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start
+# docker_build:
+#     #!/bin/bash
+#     set -e
+#     docker build -t gcp-cloud-run-nextjs:1.0 .
+
+# builds the docker image NOTE: might need to change the version at the end
+# build using cloud build if you are using arm architecture
+docker_cloud_build:
+    #!/bin/bash
+    set -e
+    gcloud builds submit --tag us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.0
+
 docker_tag:
     #!/bin/bash
     set -e
