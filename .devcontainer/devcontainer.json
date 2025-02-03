@@ -1,0 +1,27 @@
+{
+	"name": "Next.js and GCP Development",
+	"image": "node:lts",
+	"features": {
+		"ghcr.io/devcontainers/features/node:1": {
+			"version": "lts"
+		},
+		"ghcr.io/dhoeric/features/google-cloud-cli:1": {}
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"esbenp.prettier-vscode",
+				"dsznajder.es7-react-js-snippets",
+				"ms-azuretools.vscode-docker"
+			]
+		},
+		"codespaces": {
+			"openFiles": [
+				"README.md"
+			]
+		}
+	},
+	"postCreateCommand": "npm install -g next",
+	"forwardPorts": [3000],
+	"remoteUser": "root"
+}
