@@ -5,7 +5,12 @@
 		"ghcr.io/devcontainers/features/node:1": {
 			"version": "lts"
 		},
-		"ghcr.io/dhoeric/features/google-cloud-cli:1": {}
+		"ghcr.io/devcontainers/features/rust:1": {
+			"version": "latest",
+			"profile": "minimal"
+		},
+		"ghcr.io/dhoeric/features/google-cloud-cli:1": {},
+		"ghcr.io/devcontainers/features/docker-from-docker:1.6.0": {}
 	},
 	"customizations": {
 		"vscode": {
@@ -21,7 +26,7 @@
 			]
 		}
 	},
-	"postCreateCommand": "npm install -g next",
+	"postCreateCommand": "npm install -g next && cargo install just",
 	"forwardPorts": [3000],
 	"remoteUser": "root"
 }
