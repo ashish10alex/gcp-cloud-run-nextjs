@@ -1,4 +1,3 @@
-
 set export
 
 # follow the steps in the order they are defined to send a docker image to google cloud artifact registry
@@ -39,14 +38,46 @@ docker_setup:
 docker_cloud_build:
     #!/bin/bash
     set -e
-    gcloud builds submit --tag us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.0
+    gcloud builds submit --tag us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1
 
 docker_tag:
     #!/bin/bash
     set -e
-    docker tag gcp-cloud-run-nextjs:1.0 us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.0
+    docker tag gcp-cloud-run-nextjs:1.1 us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1
 
 docker_push:
     #!/bin/bash
     set -e
-    docker push us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.0
+    docker push us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1
+
+docker_pull:
+    #!/bin/bash
+    set -e
+    docker pull us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1
+
+
+docker_run:
+    #!/bin/bash
+    set -e
+    docker run -p 3000:3000 us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1
+
+# Add this new command for cloud run deployment
+deploy_cloud_run:
+    #!/bin/bash
+    set -e
+    gcloud run deploy gcp-cloud-run-nextjs \
+    --image us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1 \
+    --platform managed \
+    --region us-central1 \
+    --allow-unauthenticated \
+    --port 3000 \
+    --min-instances 0 \
+    --max-instances 1 \
+    --memory 512Mi \
+    --cpu 1 \
+    --set-env-vars="NODE_ENV=production,NEXTAUTH_URL=https://gcp-cloud-run-nextjs-927945483375.us-central1.run.app,NEXTAUTH_SECRET=your-secret-key"
+
+view_logs:
+    #!/bin/bash
+    set -e
+    gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=gcp-cloud-run-nextjs" --limit=50
