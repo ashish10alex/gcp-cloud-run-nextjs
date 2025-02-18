@@ -26,7 +26,7 @@ ENV PORT 3000
 ENV NODE_ENV production
 # Add this to ensure Next.js listens on all network interfaces
 ENV HOSTNAME "0.0.0.0"
-ENV NEXTAUTH_URL "https://gcp-cloud-run-nextjs-927945483375.us-central1.run.app"
+ENV NEXTAUTH_URL "http://34.8.1.51:80"
 ENV NEXTAUTH_SECRET "3Z+v5yYbxnf/mREdJuGfEsnfhLQaSo/BAZ1MY/lUahA="
 
 # Start the Next.js app

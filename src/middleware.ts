@@ -9,6 +9,15 @@ export default auth((req) => {
     const isVerifyUserRoute = req.nextUrl.pathname.startsWith("/api/verify_user_signin");
     const isIapBypassRoute = isVerifyUserRoute || isAuthRoute;
 
+    // Add this to ensure proper protocol and host when behind load balancer
+    const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
+    const protocol = req.headers.get("x-forwarded-proto") || "http";
+    const baseUrl = `${protocol}://${host}`;
+    console.log(`baseUrl: ${baseUrl}`);
+    console.log(`req.url: ${req.url}`);
+    console.log(`host: ${host}`);
+    console.log(`protocol: ${protocol}`);
+
     if (isApiRoute && !isIapBypassRoute && !isLoggedIn) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
