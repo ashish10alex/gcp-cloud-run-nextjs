@@ -37,6 +37,7 @@ export const config = {
     matcher: [
         "/",
         "/api/auth/signin",
+        "/api/verify_user_signin",
         "/api/:path*"
     ],
 };
