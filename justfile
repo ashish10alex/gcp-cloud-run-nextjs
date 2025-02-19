@@ -35,20 +35,15 @@ docker_setup:
 
 # builds the docker image NOTE: might need to change the version at the end
 # build using cloud build if you are using arm architecture
-docker_cloud_build:
-    #!/bin/bash
-    set -e
-    gcloud builds submit --tag us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1
+VERSION := "1.1"
+REGISTRY := "us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo"
+IMAGE_NAME := "gcp-cloud-run-nextjs"
+FULL_IMAGE := REGISTRY + "/" + IMAGE_NAME + ":" + VERSION
 
-docker_tag:
+deploy:
     #!/bin/bash
     set -e
-    docker tag gcp-cloud-run-nextjs:1.1 us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1
-
-docker_push:
-    #!/bin/bash
-    set -e
-    docker push us-docker.pkg.dev/drawingfire-b72a8/my-docker-repo/gcp-cloud-run-nextjs:1.1
+    gcloud builds submit --tag {{FULL_IMAGE}}
 
 docker_pull:
     #!/bin/bash
